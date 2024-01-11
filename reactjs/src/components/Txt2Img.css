@@ -1,0 +1,209 @@
+/* Import the Roboto font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+.txt2img-container {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #5c5959;
+
+}
+
+.checkpoint-select {
+  text-align: left;
+  padding: 20px;
+  width: 50%;
+}
+.checkpoint-select label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.txt2img-wrapper {
+  display: flex;
+}
+
+.checkpoint-options,
+.input-prompt,
+.input-negative-prompt,
+.button-generate-image,
+.sampling-container,
+.checkboxes,
+.cfg-scale-range,
+.seed-select {
+  margin-bottom: 10px;
+}
+
+.txt2img-content {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 20px;
+
+}
+.input-content {
+  flex-basis: 75%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.input-prompt input,
+.input-negative-prompt input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button-generate-image {
+  flex-basis: 20%; 
+  box-sizing: border-box;
+}
+
+.button-generate-image button {
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background-color: #eaac38;
+  color: aliceblue;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button-generate-image button:hover {
+  background-color: #ccc;
+}
+.generate-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.generate-container,
+.generated-images {
+  border: solid #a2a2a2;
+  border-width: 1px;
+  border-radius: 4px;
+  box-shadow: 2px 0px 0px 3px #f6f4f4;
+  margin: 20px;
+  width: 50%;
+  padding: 20px;
+}
+
+.generate-container input[type="text"],
+.generate-container select,
+.checkpoint-select select {
+  width: 100%;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.generate-container input[type="number"] {
+  border: 1px solid #ccc ;
+  border-radius: 8px;
+  color: #343333;
+  height: 30px;
+  margin-left: 1rem;
+  text-align: center;
+  width: 90px;
+}
+.generate-container input[type="checkbox"] {
+  margin-right: 10px;
+  border: 1px solid #ccc
+}
+.sampling-container , .width-height-batch , .cfg-scale-range , .seed-select-option, .button-row{
+  box-sizing: border-box;
+  
+}
+.sampling-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.sampling-method-select {
+  box-sizing: border-box;
+  flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sampling-steps-range{
+  box-sizing: border-box;
+  flex-basis: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sampling-method-select label , .sampling-method-select select,
+.sampling-steps-range label , .sampling-steps-range select {
+  box-sizing: border-box;
+}
+.checkboxes{
+  display: flex;
+}
+.checkboxes label{
+  flex-basis: 20%;
+}
+
+.width-height-batch {
+  display: flex;
+  justify-content: space-between;
+}
+
+.width-height-range,
+.batch-range {
+  flex-basis: 40%;
+  box-sizing: border-box;
+  width: 40%;
+}
+
+.width-height-range , .batch-range{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.width-range , .height-range{
+  box-sizing: border-box;
+}
+
+.cfg-scale-range {
+  flex-basis: 90%;
+}
+
+.cfg-scale-range input {
+  width: 80%; 
+}
+.seed-select-option{
+ flex-basis: 90%;
+}
+.seed-select label{
+  margin-right: 30px;
+}
+.button-row {
+  display: flex;
+  justify-content: space-between;
+}
+.button-row button {
+  flex-basis: 15%;
+  padding: 10px;
+  border: none; 
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.button-row button:hover {
+  background-color: #eaac38;
+  color: aliceblue;
+  transform: scale(1.1);
+}
+
+.generated-images {
+  width: 50%;
+}
