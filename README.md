@@ -33,33 +33,35 @@ pip install -e .
 
 > [!TIP]
 > - When encountering errors during environment setup, two suggested approaches can be drawn from the project's execution process.
-> - Execute the above commands, and if the system reports errors, pay attention to identify which library causes the error (often conflicts occur when installing three libraries and the torchvision, pytorch, transformers environment)
->     - _Approach 1_: Downgrade/Upgrade pytorch immediately when the program reports an error following the link to pytorch versions above.
->     - _Approach 2_: Continue to skip and follow the instructions. Because we still need to install and set up many libraries later on. We will perform downgrade/upgrade pytorch and add missing libraries later.
+>     - Execute the above commands, and if the system reports errors, pay attention to identify which library causes the error (often conflicts occur when installing three libraries and the torchvision, pytorch, transformers environment)
+>         - _Approach 1_: Downgrade/Upgrade pytorch immediately when the program reports an error following the link to pytorch versions above.
+>         - _Approach 2_: Continue to skip and follow the instructions. Because we still need to install and set up many libraries later on. We will perform downgrade/upgrade pytorch and add missing libraries later.
 
 
-#### 1.3. Cài đặt xformers (optional)
-[xformers](https://github.com/facebookresearch/xformers) là thư viện nhằm mục đích tối ưu thời gian huấn luyện cho model. Người dùng có thể cài đặt hoặc không. Tuy nhiên, đối với các máy tính có card cấu hình không quá cao. Nhà phát hành mô hình SDv2-1 và nhóm nghiên cứu highly recommend người dùng cài đặt thư viện này.
+#### 1.3. xformers Installation (Optional)
 
-Quá trình này NÊN được thực hiện sau cùng sau khi chạy thử huấn luyện mô hình trước. Do hiện tại chỉ có hướng dẫn cài đặt xformers cho hệ điều hành Linux. Đối với hệ điều hành Windows, gần như chắc chắn sẽ gặp lỗi conflict version giữa các thư viện và môi trường đã được cài đặt.  
+[xformers](https://github.com/facebookresearch/xformers) is a library aimed at optimizing training time for models. Users may choose to install it or not. However, for computers with lower configurations, the model's publisher SDv2-1 and research groups highly recommend users to install this library.
 
-- Với hệ điều hành Windows ``Linux/macOS``
-```bash
+This process SHOULD be carried out after running a trial training of the model first. Currently, there are only installation instructions for xformers for the Linux operating system. For Windows operating systems, conflicts between library versions and the installed environment are almost certain to occur.
+
+Run below command lines for installation.
+```
+# For Linux/macOS users
 export CUDA_HOME=/usr/local/cuda-11.4
 conda install -c nvidia/label/cuda-11.4.0 cuda-nvcc
 conda install -c conda-forge gcc
 conda install -c conda-forge gxx_linux-64==9.5.0
 ```
 
-- Với hệ điều hành ``Windows`` (do gói conda-forge gcc chỉ có thể được cài đặt cho ``Linux/macOS``. Người dùng ``Windows`` cần sử dụng gói thư viện ``m2w64-gcc`` để thay thế).
-```bash
+```
+# For Windows users
 set CUDA_HOME=/usr/local/cuda-11.4
 conda install -c nvidia/label/cuda-11.4.0 cuda-nvcc
-conda install -c conda-forge m2w64-gcc
+conda install -c conda-forge m2w64-gcc    // For Windows operating systems (since the conda-forge gcc package can only be installed on Linux/macOS), users need to utilize the "m2w64-gcc" library as a replacement.
 ```
-Người dùng có thể visit đường link [Conda Forge Documentation](https://anaconda.org/conda-forge) để tham khảo thêm các packages nào phù hợp để cài đặt, các thư viện tương đương với hệ điều hành mình đang dùng.
+_Users can visit the link [Conda Forge Documentation](https://anaconda.org/conda-forge) to explore additional packages suitable for installation, as well as equivalent libraries for their operating system._
 
-- Sau khi set up sau, người dùng chạy câu lệnh sau để clone và cài đặt ``xformers``
+Continue to run command lines below to clone ``xformers`` from github and install it
 ```bash
 cd ..
 git clone https://github.com/facebookresearch/xformers.git
@@ -67,24 +69,25 @@ cd xformers
 git submodule update --init --recursive
 pip install -r requirements.txt
 pip install -e .
-cd ..\SDmodel (cd về thư mục chứa model SD)
+cd ..\SDmodel      // (cd to SDmodel directory (where I contain Stable Diffusion model)
 ```  
 
-Việc cài đặt ``xformers`` đem lại nhiều hiệu quả như giảm thời gian chạy của model, giảm lượng tiêu thụ bộ nhớ của mô hình khi huấn luyện. (Về nguyên lý hoạt động của xformers để giảm thiểu quá trình chạy sẽ được bàn đến sau).
+> [!TIP]
+> Although installing ```xformers``` is optional, this library brings many benefits such as reducing model runtime and memory consumption during training. (The working principle of xformers to minimize the running process will be discussed later). This is recommended by the stable diffusion publisher.
 
-#### 1.4. Chạy sample
-Để kiểm tra liệu còn thiếu thư viện nào trong quá trình chạy hay không, người dùng có thể chạy thử ví dụ:
-- **Cách 1:**
+#### 1.4. Running a Sample
+To check if any libraries are missing during runtime, users can run a sample example:
+- **Method 1:**
 ```bash
 python scripts/txt2img.py 
 --prompt "a professional photograph of an astronaut riding a horse" 
 --ckpt <path/to/768model.ckpt/> 
 --config configs/stable-diffusion/v2-inference-v.yaml 
---H 768 
---W 768  
+--H 768      // height of output image (change this to preference)
+--W 768      // width of output image
 ```
 
-- **Cách 2:** Copy và chạy đoạn code sau
+- **Method 2:** Run the following code snippet
 ```py
 import torch
 from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
@@ -101,10 +104,12 @@ image = pipe(prompt).images[0]
     
 image.save("astronaut_rides_horse.png")
 ```
-## 2. DATASET
-Sau quá trình chạy thử nghiệm và đánh giá kết quả với mô hình có sẵn, nhóm báo cáo kết luận mô hình có sẵn chưa hoàn toàn đáp ứng được nhu cầu tạo ra các hình ảnh con người, văn hóa, lịch sử,... châu Á một cách chân thật. Đặc biệt, đối với khuôn mặt người ở các sản phẩm còn bị méo mó, biến dạng,...
 
-Nhóm làm sản phẩm quyết định sẽ finetune lại mô hình với dữ liệu cá nhân.
+## 2. DATASET
+
+After running experiments and evaluating the results with the pre-trained model, the team concluded that the existing model does not fully meet the needs of generating realistic images of Asian people, culture, history, etc. Particularly, facial features in the generated images are distorted and warped.
+
+Therefore, the team decided to fine-tune the model with personalized data for the product.
 
 ### 2.1. Cấu trúc của data
 Mô hình SD là mô hình huấn luyện hình ảnh, yêu cầu input là 1 prompt, output là 1 hình ảnh. Mô hình sẽ huấn luyện với dataset có cấu trúc dạng file _json_ như dưới đây. 
