@@ -34,8 +34,8 @@ pip install -e .
 > [!TIP]
 > - When encountering errors during environment setup, two suggested approaches can be drawn from the project's execution process.
 > - Execute the above commands, and if the system reports errors, pay attention to identify which library causes the error (often conflicts occur when installing three libraries and the torchvision, pytorch, transformers environment)
-> - _Approach 1_: Downgrade/Upgrade pytorch immediately when the program reports an error following the link to pytorch versions above.
-> - _Approach 2_: Continue to skip and follow the instructions. Because we still need to install and set up many libraries later on. We will perform downgrade/upgrade pytorch and add missing libraries later.
+>     - _Approach 1_: Downgrade/Upgrade pytorch immediately when the program reports an error following the link to pytorch versions above.
+>     - _Approach 2_: Continue to skip and follow the instructions. Because we still need to install and set up many libraries later on. We will perform downgrade/upgrade pytorch and add missing libraries later.
 
 
 #### 1.3. Cài đặt xformers (optional)
