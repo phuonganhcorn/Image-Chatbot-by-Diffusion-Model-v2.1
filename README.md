@@ -1,8 +1,4 @@
-# se9.1
-## Member
-#### Ngô Phương Anh - 20001523
-#### Nguyễn Hà Chi - 20001530
-## PROJECT IMAGE CHATBOT
+## IMAGE CHATBOT with Stable Diffusion 2
 
 ### Overview
 Image Chatbot is a project aimed at building a chatbot that allows users to _input prompt_ and recieve _output image_ based on. The chatbot is developed on a web server with the core Model AI Stable Diffusion. Currently, there are many guides available for installing the Stable Diffusion model in all versions. However, these guides are all performed on the Linux operating system. _The project will supplement additional installation instructions for the model and necessary libraries on the Windows operating system in the Requirements section._ Relevant information regarding citations, model links, and related articles on building the chatbot will be cited in the References section.
