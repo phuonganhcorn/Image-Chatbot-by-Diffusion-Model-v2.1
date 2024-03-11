@@ -5,38 +5,42 @@
 ## PROJECT IMAGE CHATBOT
 
 ### Overview
-Project Image Chatbot là project xây dựng Chatbot cho phép người dùng nhập đầu vào input text và generate ra images dựa trên thông tin đầu vào. Chatbot được xây dựng trên web server với core Model AI Stable Diffusion. Hiện nay, đã có rất nhiều các hướng dẫn cài đặt Model Stable Diffusion ở tất cả các phiên bản. Tuy nhiên, các hướng dẫn đều được thực hiện trên hệ điều hành Linux. Project sẽ bổ sung thêm hướng dẫn cài đặt model, các thư viện cần thiết trên hệ điều hành Windows ở mục Requirements. Các thông tin liên quan về trích dẫn, link model, các bài báo liên quan tới việc xây dựng Chatbot sẽ được cite ở mục Reference.
+Image Chatbot is a project aimed at building a chatbot that allows users to _input prompt_ and recieve _output image_ based on. The chatbot is developed on a web server with the core Model AI Stable Diffusion. Currently, there are many guides available for installing the Stable Diffusion model in all versions. However, these guides are all performed on the Linux operating system. _The project will supplement additional installation instructions for the model and necessary libraries on the Windows operating system in the Requirements section._ Relevant information regarding citations, model links, and related articles on building the chatbot will be cited in the References section.
 
-Có 4 phần quan trọng trong quá trình xây dựng sản phẩm:
-1. **Cài đặt môi trường**
-2. **Chuẩn bị dữ liệu (dataset)**
-3. **Huấn luyện model**
-4. **Xây dựng giao diện web cho người dùng**
-5. **Xây dựng demo app**
+There are 5 important steps in the development process:
+- **Environment Setup:** Configure the necessary environment.
+- **Dataset Preparation:** Gather and organize the dataset.
+- **Model Training:** Train the model using the prepared dataset.
+- **Web Interface Development:** Build a user-friendly web interface.
+- **Demo App Creation:** Develop a demonstration application.
 
-## 1. CÀI ĐẶT MÔ HÌNH
+## 1. MODEL INSTALLATION
 ### REQUIREMENTS
-Hiện nay, có rất nhiều phiên bản của Model Stable Diffusion người dùng có thể lựa chọn. Để xây dựng Chatbot, chúng tôi lựa chọn phiên bản Stable Diffusion SD2.1-v. Phiên bản SD2.1 là phiên bản đã được tối ưu và fine tune, từ đó chất lượng ảnh được sinh ra từ text nhìn chung tốt hơn so với các phiên bản trước đó. 
 
-Do các thư viện AI cần thiết cho project có dung lượng rất nặng, chúng ta cần cài environment để có thể tải và chạy model. 
+Currently, there are various versions of the Stable Diffusion Model available for users to choose from. For building the Chatbot, we have selected the Stable Diffusion version SD2.1-v. The SD2.1 version has been optimized and fine-tuned, resulting in generally better image quality generated from text compared to previous versions.
 
-#### 1.1. Cài đặt môi trường
-Người dùng cần cài đặt môi trường miniconda và đọc hướng dẫn conda-cheatsheet (có trong git project) để tạo môi trường phù hợp
+Due to the heavyweight of AI libraries required for the project, we need to set up an environment to download and run the model.
 
-#### 1.2. Cài đặt thư viện 
+#### 1.1. Environment Setup
+Users need to install the [miniconda](https://docs.anaconda.com/free/miniconda/index.html) environment and refer to the [conda-cheatsheet guide](https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf) to create a suitable environment.
+
+#### 1.2. Library Installation
 ```bash
 conda install pytorch==1.12.1 torchvision==0.13.1 -c pytorch
 pip install transformers==4.19.2 diffusers invisible-watermark
 pip install -e .
 ```
-Người dùng sử dụng câu lệnh trên để cài đặt môi trường pytorch và các thư viẹn cần thiết. Tuy nhiên, lưu ý do hiện tại đã có các phiên bản pytorch cao hơn. Việc cài đặt môi trường có thể bị crash do các version của thư viện này mâu thuẫn với thư viện khác. Thêm nữa, đối với các thiết bị máy tính có hệ điều hành Windows, có thể phiên bản cài đặt sẽ cần được thay đổi. 
 
-Người dúng có thể visit đường link [Cài đặt các version pytorch](https://pytorch.org/get-started/previous-versions/) để tìm phiên bản pytorch phù hợp với hệ điều hành và fix lỗi mâu thuẫn khi cài đặt các thư viện khác.
+>[!CAUTION]
+> - Users can use the above command to install the pytorch environment and necessary libraries. However, please note that currently, there are newer versions of pytorch available. The environment installation may crash due to conflicts between these library versions. Additionally, for Windows operating systems, the installed version may need to be adjusted.
+> - Users can visit the link [Pytorch version](https://pytorch.org/get-started/previous-versions/)  to find the appropriate pytorch version for their operating system and fix any installation conflicts with other libraries.
 
-_**TIPS**: Khi cài đặt môi trường và bị báo lỗi, có 2 cách được đề xuất để fix được rút ra từ quá trình thực hiện project của nhóm_
-- Thực hiện các câu lệnh bên trên, nếu hệ thống báo lỗi, chú ý tìm xem hệ thống báo lỗi ở thư viện nào (thường sẽ xảy ra mâu thuẫn khi cài đặt 3 thư viện và môi trường torchvision, pytorch, transformers).
-- Cách 1: Downgrade/Upgrade pytorch ngay khi chương trình báo lỗi theo link các version của pytorch phía bên trên.
-- Cách 2: Tiếp tục bỏ qua và cài đặt theo hướng dẫn. Vì ở phía sau vẫn cần cài đặt, set up nhiều thư viện. Ta sẽ thực hiện downgrade/upgrade pytorch và bổ sung các thư viện còn thiếu sau.
+> [!TIP]
+> - When encountering errors during environment setup, two suggested approaches can be drawn from the project's execution process.
+> - Execute the above commands, and if the system reports errors, pay attention to identify which library causes the error (often conflicts occur when installing three libraries and the torchvision, pytorch, transformers environment)
+> - _Approach 1_: Downgrade/Upgrade pytorch immediately when the program reports an error following the link to pytorch versions above.
+> - _Approach 2_: Continue to skip and follow the instructions. Because we still need to install and set up many libraries later on. We will perform downgrade/upgrade pytorch and add missing libraries later.
+
 
 #### 1.3. Cài đặt xformers (optional)
 [xformers](https://github.com/facebookresearch/xformers) là thư viện nhằm mục đích tối ưu thời gian huấn luyện cho model. Người dùng có thể cài đặt hoặc không. Tuy nhiên, đối với các máy tính có card cấu hình không quá cao. Nhà phát hành mô hình SDv2-1 và nhóm nghiên cứu highly recommend người dùng cài đặt thư viện này.
