@@ -10,6 +10,9 @@ There are 5 important steps in the development process:
 - **Web Interface Development:** Build a user-friendly web interface.
 - **Demo App Creation:** Develop a demonstration application.
 
+> [!NOTE]
+> Update the LoRA + DoRA in fine-tuning approach. This update will accelerate the fine-tuning process and yield improved results.
+
 ## 1. MODEL INSTALLATION
 ### REQUIREMENTS
 
